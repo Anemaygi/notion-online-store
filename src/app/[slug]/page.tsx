@@ -14,6 +14,7 @@ export default async function Page({ params, }: { params: { slug: string } }) {
   const item = itemPage.item; 
 
   return (
-    <ItemCard item={item} />
+    // <ItemCard item={item} />
+    <></>
   )
 }

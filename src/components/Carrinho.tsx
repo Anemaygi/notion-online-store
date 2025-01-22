@@ -16,44 +16,89 @@ import {
 import { Item } from "../../@types/schema"
 import Image from "./Image"
 
-interface ItemCarrinhoProps {
-    item: Item,
-    quantidade: number,
-    variacao: string,
+export interface ItemCarrinhoProps {
+    item: Item;
+    quantidade: number;
+    variacao: string;
+    removeFromCart: (itemId: string, variacao: string) => void;
+    updateItem: (itemId: string, variacao: string, newValue: number | string, type: "quantidade" | "variacao", newVariacao?: string) => void;  // Add updateItem here
 }
 
-interface CarrinhoProps {
+export interface CarrinhoProps {
     items: ItemCarrinhoProps[]
+    setItems: React.Dispatch<React.SetStateAction<ItemCarrinhoProps[]>>;
 }
 
-export function Carrinho({items}:CarrinhoProps) {
-    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false)
+export function Carrinho({ items, setItems }: CarrinhoProps) {
+    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false);
+
+    const removeFromCart = (itemId: string, variacao: string) => {
+        setItems((prevItems) => prevItems.filter(item => item.item.id !== itemId || item.variacao !== variacao));
+    };
+
+    const updateItem = (itemId: string, variacao: string, newValue: number | string, type: "quantidade" | "variacao", newVariacao?: string) => {
+        setItems((prevItems) => {
+            return prevItems.map((cartItem) => {
+                if (cartItem.item.id === itemId && cartItem.variacao === variacao) {
+                    if (type === "quantidade") {
+                        return { ...cartItem, quantidade: newValue as number };
+                    } else if (type === "variacao") {
+                        return { ...cartItem, variacao: newVariacao || variacao };
+                    }
+                }
+                return cartItem;
+            });
+        });
+    };
 
     return (
         <>
-            <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen(true)}><BsCartFill /></i>
+            <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen(true)}>
+                <BsCartFill />
+            </i>
             <main className={`flex flex-col ${isCarrinhoOpen ? '' : 'hidden'} pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 left-0 bottom-0 h-screen bg-white w-full sm:w-80`}>
-                <div onClick={() => setIsCarrinhoOpen(false)} className="absolute cursor-pointer top-2 right-2"><BsXCircleFill /></div>
+                <div onClick={() => setIsCarrinhoOpen(false)} className="absolute cursor-pointer top-2 right-2">
+                    <BsXCircleFill />
+                </div>
 
-               {items.map((item: ItemCarrinhoProps, idx) => (
-                           <ItemCarrinho item={item.item} quantidade={item.quantidade} variacao={item.variacao}  />
-                         ))}
+                {items.map((item: ItemCarrinhoProps, idx) => (
+                    <ItemCarrinho 
+                        key={idx} 
+                        item={item.item} 
+                        quantidade={item.quantidade} 
+                        variacao={item.variacao}  
+                        removeFromCart={removeFromCart} 
+                        updateItem={updateItem} // Pass updateItem here
+                    />
+                ))}
                 
                 <div className="flex flex-col">
                     <Button>Finalizar compra</Button>
                 </div>
             </main>
         </>
-    )
+    );
 }
 
 
 
-export function ItemCarrinho({ item, quantidade, variacao }: ItemCarrinhoProps) {
+
+
+export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updateItem }: ItemCarrinhoProps) {
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newQuantity = Number(e.target.value);
+        if (newQuantity > 0) {
+            updateItem(item.id, variacao, newQuantity, "quantidade");
+        }
+    };
+
+    const handleVariacaoChange = (newVariacao: string) => {
+        updateItem(item.id, variacao, quantidade, "variacao", newVariacao);
+    };
 
     return (
-        <div className="w-full p-2 gap-x-3 h-fit flex items-center justify-center  rounded-md border shadow-sm">
-
+        <div className="w-full p-2 gap-x-3 h-fit flex items-center justify-center rounded-md border shadow-sm">
             <div className="w-20 h-20 relative ">
                 <Image className="object-scale-down rounded-lg" src={"https://i.imgur.com/kps7wFw.png"} alt={"item.descricao"} fill={true} />
             </div>
@@ -63,15 +108,25 @@ export function ItemCarrinho({ item, quantidade, variacao }: ItemCarrinhoProps) 
                 <form>
                     <div className="grid grid-cols-2 items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Input className="text-xs" id="quantity" value={quantidade} />
+                            <Input
+                                className="text-xs"
+                                id="quantity"
+                                type="number"
+                                min="1"
+                                value={quantidade}
+                                onChange={handleQuantityChange} // Handle quantity change
+                            />
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Select >
-                                <SelectTrigger className="text-xs " id="framework">
+                            <Select value={variacao} onValueChange={handleVariacaoChange}> {/* Handle variacao change */}
+                                <SelectTrigger className="text-xs" id="framework">
                                     <SelectValue placeholder={variacao} />
                                 </SelectTrigger>
                                 <SelectContent position="popper">
                                     <SelectItem className="text-xs" value={variacao}>{variacao}</SelectItem>
+                                    {/* Add other variations here as SelectItems */}
+                                    <SelectItem className="text-xs" value="Large">Large</SelectItem>
+                                    <SelectItem className="text-xs" value="Medium">Medium</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -80,14 +135,15 @@ export function ItemCarrinho({ item, quantidade, variacao }: ItemCarrinhoProps) 
             </div>
 
             <div>
-
                 <div className="flex flex-col">
-                    <Button><BsFillTrash3Fill size={2} /></Button>
+                    <Button onClick={() => removeFromCart(item.id, variacao)}>
+                        <BsFillTrash3Fill size={20} />
+                    </Button>
                 </div>
             </div>
-
-
-
         </div>
-    )
+    );
 }
+
+
+
