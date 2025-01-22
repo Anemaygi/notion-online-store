@@ -45,6 +45,9 @@ export function Carrinho() {
                 <ItemCarrinho />
                 <ItemCarrinho />
                 <ItemCarrinho />
+                <div className="flex flex-col">
+                    <Button>Finalizar compra</Button>
+                </div>
             </main>
         </>
     )
