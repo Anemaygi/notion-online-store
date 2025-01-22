@@ -12,8 +12,12 @@ interface PageProps {
   };
 }
 
-export default async function Page({ params }: PageProps) {
-  const { slug } = await params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = (await params);
   const notionService = new NotionService();
   const itemPage = await notionService.getSingleItem(slug);
   const item = itemPage.item;
