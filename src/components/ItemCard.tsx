@@ -1,3 +1,7 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
+
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -26,9 +30,11 @@ interface ItemCardProps {
   }
 
 export function ItemCard( {item}: ItemCardProps ) {
-  return (
+    const router = useRouter()
+    const sendToPage = () => router.push(`/${item.slug}`)
+    return (
     <Card className="w-full">
-      <CardHeader>
+      <CardHeader onClick={sendToPage} className="cursor-pointer">
         <div className="mb-2 w-full h-64 relative">
             <Image className="object-scale-down" src={item.imagem} alt={item.descricao} fill={true}/>
         </div>
