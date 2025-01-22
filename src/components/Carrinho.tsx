@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import * as React from "react"
-import { BsFillTrash3Fill, BsXCircleFill } from "react-icons/bs";
+import { BsFillTrash3Fill, BsXCircleFill,BsCartFill } from "react-icons/bs";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -24,30 +24,29 @@ import {
 import { Item } from "../../@types/schema"
 import Image from "./Image"
 
-interface ItemCardProps {
-    item: Item;
-}
-
-
-
 export function Carrinho() {
+    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false)
+    
     return (
-        <main className="flex flex-col pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 left-0 bottom-0 h-screen bg-white w-full sm:w-80">
-            <div className="absolute top-2 right-2"><BsXCircleFill /></div>
-            
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-            <ItemCarrinho />
-        </main>
+        <>
+            <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen(true)}><BsCartFill /></i>
+            <main className={`flex flex-col ${isCarrinhoOpen ? '' : 'hidden'} pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 left-0 bottom-0 h-screen bg-white w-full sm:w-80`}>
+                <div onClick={() => setIsCarrinhoOpen(false)} className="absolute cursor-pointer top-2 right-2"><BsXCircleFill /></div>
+
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+                <ItemCarrinho />
+            </main>
+        </>
     )
 }
 
@@ -55,11 +54,11 @@ export function ItemCarrinho() {
 
     return (
         <div className="w-full p-2 gap-x-3 h-fit flex items-center justify-center  rounded-md border shadow-sm">
-            
+
             <div className="w-20 h-20 relative ">
-                <Image className="object-scale-down rounded-lg" src={"https://i.imgur.com/kps7wFw.png"} alt={"item.descricao"} fill={true}/>
+                <Image className="object-scale-down rounded-lg" src={"https://i.imgur.com/kps7wFw.png"} alt={"item.descricao"} fill={true} />
             </div>
-            
+
             <div className="w-36">
                 <h1 className="text-sm">Item</h1>
                 <form>
@@ -80,15 +79,15 @@ export function ItemCarrinho() {
                     </div>
                 </form>
             </div>
-            
+
             <div>
 
-            <div className="flex flex-col">
-                    <Button><BsFillTrash3Fill size={2}/></Button>
+                <div className="flex flex-col">
+                    <Button><BsFillTrash3Fill size={2} /></Button>
                 </div>
             </div>
-            
-         
+
+
 
         </div>
     )
