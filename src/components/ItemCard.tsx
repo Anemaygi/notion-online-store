@@ -50,6 +50,7 @@ export function ItemCard( {item, addToCart}: ItemCardProps ) {
             <Image className="object-scale-down" src={item.imagem} alt={item.descricao} fill={true}/>
         </div>
         <CardTitle> {item.nome} </CardTitle>
+        <CardTitle className="text-gray-500"> R$ {item.preco.toFixed(2).replace(".", ",")} </CardTitle>
         <CardDescription> {item.descricao} </CardDescription>
 
       </CardHeader>

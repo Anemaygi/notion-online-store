@@ -29,6 +29,7 @@ export type Item = {
     variacoes: string[],
     tipo: Tipo,
     date: string
+    preco: number,
 }
 
 export type ItemPage = {

@@ -80,7 +80,8 @@ export default class NotionService {
             variacaoNome: page.properties.VariacaoNome.rich_text[0].plain_text,
             variacoes: page.properties.Variacoes.rich_text[0].plain_text.split(',').map((item: string) => item.trim()),
             tipo: Tipo.Encomenda,
-            date: ""
+            date: "",
+            preco: page.properties.Preco.number,
         }
     }
     

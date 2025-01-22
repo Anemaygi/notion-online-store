@@ -51,6 +51,15 @@ export function Carrinho({ items, setItems }: CarrinhoProps) {
         });
     };
 
+    const totalValue = () => {
+        let total = 0;
+        for (const item of items) { 
+            total += (item.item.preco * item.quantidade); 
+        }
+        return total;
+    }
+    
+
     return (
         <>
             <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen(true)}>
@@ -68,11 +77,15 @@ export function Carrinho({ items, setItems }: CarrinhoProps) {
                         quantidade={item.quantidade}
                         variacao={item.variacao}
                         removeFromCart={removeFromCart}
-                        updateItem={updateItem} // Pass updateItem here
+                        updateItem={updateItem} 
                     />
                 ))}
 
-                <div className="flex flex-col">
+
+
+                <div className="flex flex-col gap-4">
+                    <h1><strong>Total</strong> R$ {totalValue().toFixed(2).replace(".", ",")} </h1>
+                    
                     <Button>Finalizar compra</Button>
                 </div>
             </main>
@@ -137,6 +150,7 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
 
             <div>
                 <div className="flex flex-col">
+                                       
                     <Button onClick={() => removeFromCart(item.id, variacao)}>
                         <BsFillTrash3Fill size={20} />
                     </Button>
