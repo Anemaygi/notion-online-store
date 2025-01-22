@@ -29,3 +29,7 @@ export type Item = {
     tipo: Tipo,
     date: string
 }
+
+export type ItemPage = {
+    item: Item
+}
