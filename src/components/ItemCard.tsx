@@ -34,12 +34,33 @@ export function ItemCard( {item}: ItemCardProps ) {
         </div>
         <CardTitle> {item.nome} </CardTitle>
         <CardDescription> {item.descricao} </CardDescription>
-        {/* <Image src={item.imagem} alt={item.descricao} fill={true}/> */}
+
       </CardHeader>
-      
-      <CardFooter className="flex justify-between">
-        <Button>Adicionar ao carrinho</Button>
-      </CardFooter>
+      <CardContent>
+            <form>
+            <div className="grid grid-cols-3 w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label className="text-xs text-gray-500 italic" htmlFor="quantity">Quantidade</Label>
+              <Input className="text-xs" id="quantity" value="1" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label className="text-xs text-gray-500 italic" htmlFor="framework">Tamanho</Label>
+              <Select >
+                <SelectTrigger className="text-xs " id="framework">
+                  <SelectValue  placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem className="text-xs" value="next">Next.js</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+            <Label className="text-xs text-gray-500 italic" htmlFor="framework">Carrinho</Label>
+            <Button>Adicionar</Button>
+            </div>
+          </div>
+            </form>
+        </CardContent>
     </Card>
   )
 }
