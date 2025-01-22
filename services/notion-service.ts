@@ -33,11 +33,11 @@ export default class NotionService {
             }
         );
 
-        // console.log(response)
+        console.log(response)
         const formatRes =  response.results.map(res=>{
             return NotionService.pageToItemTransformer(res)
         })
-        // console.log(formatRes)
+        console.log(formatRes)
         return formatRes
 
     }
@@ -65,11 +65,13 @@ export default class NotionService {
         return {item: NotionService.pageToItemTransformer(itemToPage)}
     }
 
+
+
     private static pageToItemTransformer(page:any): Item{
         return{
             id: page.id,
             slug: page.properties.Slug.formula.string,
-            imagem: page.properties.Imagens.rich_text[0].plain_tex,
+            imagem: page.properties.Imagens.rich_text[0].plain_text,
             nome: page.properties.Nome.rich_text[0].plain_text,
             categorias: [],
             descricao: page.properties.Descricao.rich_text[0].plain_text,
