@@ -3,7 +3,7 @@
 import { ItemCard } from "@/components/ItemCard";
 import { Item } from "../../../@types/schema";
 import { Carrinho, ItemCarrinhoProps } from "@/components/Carrinho";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface VitrineProps {
   items: Item[];
@@ -11,6 +11,17 @@ interface VitrineProps {
 
 export default function Vitrine({ items }: VitrineProps) {
   const [carrinho, setCarrinho] = useState<ItemCarrinhoProps[]>([]);
+  
+  useEffect(() => {
+    const carrinhoSalvo = localStorage.getItem("carrinho");
+    if (carrinhoSalvo) {
+      setCarrinho(JSON.parse(carrinhoSalvo));
+    }
+  }, []);
+
+  useEffect(() => {
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  }, [carrinho]);
 
   const addToCart = (item: Item, quantity: number, size: string) => {
     setCarrinho((prevCarrinho) => {
