@@ -1,6 +1,6 @@
-import { ItemCard } from "@/components/ItemCard";
 import NotionService from "../../../services/notion-service";
 import { Item } from "../../../@types/schema";
+import { ItemPage } from "./ItemPage";
 
 interface ItemCardProps {
     item: Item; 
@@ -14,7 +14,6 @@ export default async function Page({ params, }: { params: { slug: string } }) {
   const item = itemPage.item; 
 
   return (
-    // <ItemCard item={item} />
-    <></>
+    <ItemPage item={item} />
   )
 }
