@@ -113,7 +113,7 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
     return (
         <div className="w-full p-2 gap-x-3 h-fit flex items-center justify-center rounded-md border shadow-sm">
             <div className="w-20 h-20 relative ">
-                <Image className="object-scale-down rounded-lg" src={"https://i.imgur.com/kps7wFw.png"} alt={"item.descricao"} fill={true} />
+                <Image className="object-scale-down rounded-lg" src={item.imagem} alt={"item.descricao"} fill={true} />
             </div>
 
             <div className="w-36">
