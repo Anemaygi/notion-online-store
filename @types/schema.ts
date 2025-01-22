@@ -25,7 +25,8 @@ export type Item = {
     descricao: string,
     pedidos: number,
     estoque: number,
-    variacoes: Variacao[],
+    variacaoNome: string
+    variacoes: string[],
     tipo: Tipo,
     date: string
 }

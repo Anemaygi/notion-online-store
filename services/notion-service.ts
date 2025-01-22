@@ -77,7 +77,8 @@ export default class NotionService {
             descricao: page.properties.Descricao.rich_text[0].plain_text,
             pedidos: page.properties.Pedidos.number,
             estoque: page.properties.Estoque.number,
-            variacoes: [],
+            variacaoNome: page.properties.VariacaoNome.rich_text[0].plain_text,
+            variacoes: page.properties.Variacoes.rich_text[0].plain_text.split(',').map((item: string) => item.trim()),
             tipo: Tipo.Encomenda,
             date: ""
         }

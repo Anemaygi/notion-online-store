@@ -62,16 +62,16 @@ export function Carrinho({ items, setItems }: CarrinhoProps) {
                 </div>
 
                 {items.map((item: ItemCarrinhoProps, idx) => (
-                    <ItemCarrinho 
-                        key={idx} 
-                        item={item.item} 
-                        quantidade={item.quantidade} 
-                        variacao={item.variacao}  
-                        removeFromCart={removeFromCart} 
+                    <ItemCarrinho
+                        key={idx}
+                        item={item.item}
+                        quantidade={item.quantidade}
+                        variacao={item.variacao}
+                        removeFromCart={removeFromCart}
                         updateItem={updateItem} // Pass updateItem here
                     />
                 ))}
-                
+
                 <div className="flex flex-col">
                     <Button>Finalizar compra</Button>
                 </div>
@@ -82,9 +82,8 @@ export function Carrinho({ items, setItems }: CarrinhoProps) {
 
 
 
-
-
 export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updateItem }: ItemCarrinhoProps) {
+    const [selectedSize, setSelectedSize] = React.useState(variacao); // State for managing selected size
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newQuantity = Number(e.target.value);
@@ -94,7 +93,8 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
     };
 
     const handleVariacaoChange = (newVariacao: string) => {
-        updateItem(item.id, variacao, quantidade, "variacao", newVariacao);
+        setSelectedSize(newVariacao); // Update selected size state
+        updateItem(item.id, variacao, quantidade, "variacao", newVariacao); // Update item with new size
     };
 
     return (
@@ -114,19 +114,20 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
                                 type="number"
                                 min="1"
                                 value={quantidade}
-                                onChange={handleQuantityChange} // Handle quantity change
+                                onChange={handleQuantityChange} 
                             />
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Select value={variacao} onValueChange={handleVariacaoChange}> {/* Handle variacao change */}
+                            <Select value={selectedSize} onValueChange={handleVariacaoChange}>
                                 <SelectTrigger className="text-xs" id="framework">
-                                    <SelectValue placeholder={variacao} />
+                                    <SelectValue placeholder="Selecione" />
                                 </SelectTrigger>
                                 <SelectContent position="popper">
-                                    <SelectItem className="text-xs" value={variacao}>{variacao}</SelectItem>
-                                    {/* Add other variations here as SelectItems */}
-                                    <SelectItem className="text-xs" value="Large">Large</SelectItem>
-                                    <SelectItem className="text-xs" value="Medium">Medium</SelectItem>
+                                    {item.variacoes.map((variacao, idx) => (
+                                        <SelectItem className="text-xs" value={variacao} key={idx}>
+                                            {variacao}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -144,6 +145,3 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
         </div>
     );
 }
-
-
-

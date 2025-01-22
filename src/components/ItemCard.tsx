@@ -36,9 +36,9 @@ export function ItemCard( {item, addToCart}: ItemCardProps ) {
     const [quantity, setQuantity] = React.useState(1); 
     const [selectedSize, setSelectedSize] = React.useState("");
     const handleAddToCart = (e: React.FormEvent) => {
-        e.preventDefault(); // Prevent form submission reload
+        e.preventDefault(); 
         if (selectedSize && quantity > 0) {
-          addToCart(item, quantity, selectedSize); // Add item to cart
+          addToCart(item, quantity, selectedSize); 
         } else {
           alert("Selecionar tamanho e quantidade");
         }
@@ -61,15 +61,23 @@ export function ItemCard( {item, addToCart}: ItemCardProps ) {
               <Input className="text-xs" id="quantity" value={quantity} min={1} onChange={(e) => setQuantity(Number(e.target.value))} />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label className="text-xs text-gray-500 italic" htmlFor="framework">Tamanho</Label>
+              <Label className="text-xs text-gray-500 italic" htmlFor="framework"> {item.variacaoNome} </Label>
               <Select onValueChange={setSelectedSize}>
-                <SelectTrigger className="text-xs " id="framework">
-                  <SelectValue  placeholder="Select" />
+                <SelectTrigger className="text-xs" id="framework">
+                    <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem className="text-xs" value="next">Next.js</SelectItem>
+                    {
+                    item.variacoes.map((variacao, idx) => (
+                        <SelectItem className="text-xs" value={variacao} key={idx}>
+                        {variacao}
+                        </SelectItem>
+                    ))
+                    }
                 </SelectContent>
-              </Select>
+                </Select>
+
+              
             </div>
             <div className="flex flex-col space-y-1.5">
             <Label className="text-xs text-gray-500 italic" htmlFor="framework">Carrinho</Label>
