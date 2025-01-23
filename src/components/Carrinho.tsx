@@ -14,7 +14,6 @@ import {
 import { Item } from "../../@types/schema"
 import Image from "./Image"
 import { useCart } from '@/context/Carrinho';
-import { useRouter } from 'next/router';
 
 export interface ItemCarrinhoProps {
     item: Item;
@@ -33,12 +32,12 @@ export function Carrinho() {
     
     
     const { carrinho, removeFromCart, updateItem, formattedTotalPrice } = useCart();
-    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false); // Abre e fecha modal
+    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false);
 
     
 
     const handleRedirect = () => {
-        window.location.href = '/finalizar-compra'; // This will navigate to the new page
+        window.location.href = '/finalizar-compra'; 
     };
     
 
@@ -47,11 +46,14 @@ export function Carrinho() {
             <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen((prevValue) => !prevValue)}>
                 <BsCartFill />
             </i>
-            <main className={`flex flex-col ${isCarrinhoOpen ? '' : 'hidden'} pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 left-0 bottom-0 h-screen bg-white w-full sm:w-80`}>
+            <main className={`flex flex-col ${isCarrinhoOpen ? '' : 'hidden'} pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 right-0 bottom-0 h-screen min-h-screen max-h-screen bg-white w-full sm:w-80`}>
+                
                 <div onClick={() => setIsCarrinhoOpen(false)} className="absolute cursor-pointer top-2 right-2">
                     <BsXCircleFill />
                 </div>
 
+
+                <div className="flex flex-col gap-2 flex-grow overflow-y-scroll">
                 {carrinho.map((item: ItemCarrinhoProps, idx) => (
                     <ItemCarrinho
                         key={idx}
@@ -62,7 +64,7 @@ export function Carrinho() {
                         updateItem={updateItem} 
                     />
                 ))}
-
+                </div>
 
 
                 <div className="flex flex-col gap-4">
