@@ -1,7 +1,7 @@
 import { ItemCard } from "@/components/ItemCard";
 import NotionService from "../../services/notion-service";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Vitrine from "@/components/Vitrine";
+import { BsFlower2 } from "react-icons/bs";
 
 export default async function Home() {
 
@@ -12,6 +12,10 @@ export default async function Home() {
   return (
 
     <main className="w-full h-full">
+      
+      <div className="bg-black text-white w-full space-x-4 h-96 overflow-hidden text-7xl flex items-center justify-center">
+        <BsFlower2 /> <BsFlower2 /> <BsFlower2 />
+      </div>
 
       <Vitrine items={items} categorias={categorias} />
 
