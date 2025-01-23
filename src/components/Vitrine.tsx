@@ -34,7 +34,7 @@ export default function Vitrine({ items, categorias }: VitrineProps) {
   return (
     <main className="w-full h-full">
 
-      <div className="w-full flex justify-center items-center p-4 gap-2 m-2 md:m-4 lg:m-8 flex flex-wrap">
+      <div className="w-full flex justify-center items-center p-4 gap-2 m-4 lg:m-8 flex flex-wrap">
       <Label>Filtrar por</Label>
       <Badge 
           onClick={() => setSelectedCategory("all")} variant={selectedCategory === "all" ? "default" : "outline"} className="cursor-pointer">
