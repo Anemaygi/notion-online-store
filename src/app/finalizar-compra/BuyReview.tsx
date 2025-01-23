@@ -44,19 +44,19 @@ function ReviewItem({ item, quantidade, variacao }: ReviewItemProps) {
                 <div className="grid grid-cols-2 md:grid-cols-4 items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
                         <Label className="text-xs text-gray-500 italic" htmlFor="quantity">Quantidade</Label>
-                        <p>{quantidade}</p>
+                        <p className="text-xs">{quantidade}</p>
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label className="text-xs text-gray-500 italic" htmlFor="quantity">Variação</Label>
-                        <p> {variacao} </p>
+                        <p className="text-xs"> {variacao} </p>
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label className="text-xs text-gray-500 italic" htmlFor="quantity">Preço/uni</Label>
-                        <p> R$ {item.preco.toFixed(2).replace(".", ",")} </p>
+                        <p className="text-xs"> R$ {item.preco.toFixed(2).replace(".", ",")} </p>
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label className="text-xs text-gray-500 italic" htmlFor="quantity">Preço/total</Label>
-                        <p> R$ {(item.preco * quantidade).toFixed(2).replace(".", ",")} </p>
+                        <p className="text-xs"> R$ {(item.preco * quantidade).toFixed(2).replace(".", ",")} </p>
                     </div>
                 </div>
 

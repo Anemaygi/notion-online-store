@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,41 +9,83 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SetStateAction } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
+import { DadosCompra } from "./BuyForm";
 
 const formSchema = z.object({
-  file: z.instanceof(FileList).optional(),
+  file: z.instanceof(FileList).refine((fileList) => fileList.length > 0, {
+    message: "Você precisa enviar um comprovante.",
+  }),
 });
 
-export default function PayForm() {
+interface PayFormProps {
+  setStep: (value: SetStateAction<number>) => void;
+  setFinalData: (value: SetStateAction<DadosCompra>) => void;
+  finalize: () => void;
+}
+
+export default function PayForm({
+  setStep,
+  finalize,
+  setFinalData,
+}: PayFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    const file = data.file[0];
+    console.log("Selected file:", file);
+    console.log("Type:", typeof file);
+
+    setFinalData((prev) => ({
+      ...prev,
+      comprovante: file,
+    }));
+
+    setStep(2)
+
+    finalize();
   };
 
   return (
-    <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full p-10">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <FormField
           control={form.control}
           name="file"
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Adicionar comprovante</FormLabel>
+                <FormLabel>Anexe o comprovante abaixo</FormLabel>
                 <FormControl>
-                  <Input type="file" />
+                  <Controller
+                    name="file"
+                    control={form.control}
+                    render={({ field }) => (
+                      <input
+                        type="file"
+                        name={field.name}
+                        onChange={(e) => field.onChange(e.target.files)}
+                        ref={field.ref}
+                        disabled={field.disabled}
+                      />
+                    )}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             );
           }}
         />
-        <Button type="submit">Submit</Button>
+        <div className="grid grid-cols-2 space-x-4">
+          <Button variant="outline" onClick={() => setStep(0)}>
+            Voltar
+          </Button>
+          <Button type="submit">Finalizar</Button>
+        </div>
       </form>
     </Form>
   );

@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { SetStateAction } from "react"
+import { DadosCompra } from "./BuyForm"
 
 const formSchema = z.object({
   fullname: z.string().min(2, {
@@ -26,18 +28,31 @@ const formSchema = z.object({
   phone: z.string().min(11, { message: 'Insira um número válido com DDD' }).max(16, { message: 'Insira um número válido com DDD' })
 })
 
-export function PersonalForm() {
+interface PersonalFormProps{
+  setStep: (value: SetStateAction<number>) => void
+  setFinalData: (value: SetStateAction<DadosCompra>) => void
+  finalData: DadosCompra
+}
+
+export default function PersonalForm({setStep, setFinalData, finalData}:PersonalFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullname: "",
-      mail: "",
-      phone: ""
+      fullname: finalData.name,
+      mail: finalData.mail,
+      phone: finalData.phone
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
+    setFinalData((prev) => ({
+      ...prev,
+      name: values.fullname,
+      mail: values.mail,
+      phone: values.phone,
+    }));
+    setStep(1)
   }
 
   return (
