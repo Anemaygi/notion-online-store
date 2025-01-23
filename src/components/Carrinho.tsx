@@ -44,7 +44,7 @@ export function Carrinho() {
 
     return (
         <>
-            <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen(true)}>
+            <i className="cursor-pointer" onClick={() => setIsCarrinhoOpen((prevValue) => !prevValue)}>
                 <BsCartFill />
             </i>
             <main className={`flex flex-col ${isCarrinhoOpen ? '' : 'hidden'} pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 left-0 bottom-0 h-screen bg-white w-full sm:w-80`}>

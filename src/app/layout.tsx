@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/Carrinho";
 import { Carrinho } from "@/components/Carrinho";
+import { NavigationTopMenu } from "@/components/NavigationTopMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,8 +31,13 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Carrinho />
+          <header className="sticky z-40 bg-white p-4 shadow-md top-0 w-full flex justify-center">
+            <NavigationTopMenu />
+          </header>
+          <main className="z-0">
+          {/* <Carrinho /> */}
           {children}
+          </main>
         </body>
       </html>
     </CartProvider>
