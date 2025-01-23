@@ -23,24 +23,24 @@ import {
 } from "@/components/ui/select"
 import { Item } from "../../../@types/schema"
 import Image from "../../components/Image"
+import { useCart } from '@/context/Carrinho'
 
 interface ItemPageProps {
     item: Item;
-    // addToCart: (item: Item, quantity: number, size: string) => void;  
   }
 
 export function ItemPage( {item}: ItemPageProps ) {
-
+    const { addToCart } = useCart();
     const [quantity, setQuantity] = React.useState(1); 
     const [selectedSize, setSelectedSize] = React.useState("");
-    // const handleAddToCart = (e: React.FormEvent) => {
-    //     e.preventDefault(); 
-    //     if (selectedSize && quantity > 0) {
-    //       addToCart(item, quantity, selectedSize); 
-    //     } else {
-    //       alert("Selecionar tamanho e quantidade");
-    //     }
-    //   };
+    const handleAddToCart = (e: React.FormEvent) => {
+            e.preventDefault(); 
+            if (selectedSize && quantity > 0) {
+              addToCart(item, quantity, selectedSize); 
+            } else {
+              alert("Selecionar tamanho e quantidade");
+            }
+          };
 
     return (
     <Card className="w-full">
@@ -81,7 +81,7 @@ export function ItemPage( {item}: ItemPageProps ) {
             </div>
             <div className="flex flex-col space-y-1.5">
             <Label className="text-xs text-gray-500 italic" htmlFor="framework">Carrinho</Label>
-            {/* <Button onClick={handleAddToCart}>Adicionar</Button> */}
+            <Button onClick={handleAddToCart}>Adicionar</Button>
             </div>
           </div>
             </form>

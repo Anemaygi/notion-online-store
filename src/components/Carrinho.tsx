@@ -1,11 +1,9 @@
 'use client'
 
-import * as React from "react"
+import React, { createContext, useContext, useState } from 'react';
 import { BsFillTrash3Fill, BsXCircleFill, BsCartFill } from "react-icons/bs";
 import { Button } from "@/components/ui/button"
-
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Select,
     SelectContent,
@@ -15,6 +13,7 @@ import {
 } from "@/components/ui/select"
 import { Item } from "../../@types/schema"
 import Image from "./Image"
+import { useCart } from '@/context/Carrinho';
 
 export interface ItemCarrinhoProps {
     item: Item;
@@ -29,31 +28,13 @@ export interface CarrinhoProps {
     setItems: React.Dispatch<React.SetStateAction<ItemCarrinhoProps[]>>;
 }
 
-export function Carrinho({ items, setItems }: CarrinhoProps) {
-    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false);
-
-    const removeFromCart = (itemId: string, variacao: string) => {
-        setItems((prevItems) => prevItems.filter(item => item.item.id !== itemId || item.variacao !== variacao));
-    };
-
-    const updateItem = (itemId: string, variacao: string, newValue: number | string, type: "quantidade" | "variacao", newVariacao?: string) => {
-        setItems((prevItems) => {
-            return prevItems.map((cartItem) => {
-                if (cartItem.item.id === itemId && cartItem.variacao === variacao) {
-                    if (type === "quantidade") {
-                        return { ...cartItem, quantidade: newValue as number };
-                    } else if (type === "variacao") {
-                        return { ...cartItem, variacao: newVariacao || variacao };
-                    }
-                }
-                return cartItem;
-            });
-        });
-    };
+export function Carrinho() {
+    const { carrinho, removeFromCart, updateItem } = useCart();
+    const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false); // Abre e fecha modal
 
     const totalValue = () => {
         let total = 0;
-        for (const item of items) { 
+        for (const item of carrinho) { 
             total += (item.item.preco * item.quantidade); 
         }
         return total;
@@ -70,7 +51,7 @@ export function Carrinho({ items, setItems }: CarrinhoProps) {
                     <BsXCircleFill />
                 </div>
 
-                {items.map((item: ItemCarrinhoProps, idx) => (
+                {carrinho.map((item: ItemCarrinhoProps, idx) => (
                     <ItemCarrinho
                         key={idx}
                         item={item.item}
@@ -96,7 +77,7 @@ export function Carrinho({ items, setItems }: CarrinhoProps) {
 
 
 export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updateItem }: ItemCarrinhoProps) {
-    const [selectedSize, setSelectedSize] = React.useState(variacao); // State for managing selected size
+    const [selectedSize, setSelectedSize] = React.useState(variacao);
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newQuantity = Number(e.target.value);
@@ -106,8 +87,8 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
     };
 
     const handleVariacaoChange = (newVariacao: string) => {
-        setSelectedSize(newVariacao); // Update selected size state
-        updateItem(item.id, variacao, quantidade, "variacao", newVariacao); // Update item with new size
+        setSelectedSize(newVariacao);
+        updateItem(item.id, variacao, quantidade, "variacao", newVariacao);
     };
 
     return (

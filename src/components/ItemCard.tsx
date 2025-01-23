@@ -23,13 +23,14 @@ import {
 } from "@/components/ui/select"
 import { Item } from "../../@types/schema"
 import Image from "./Image"
+import { useCart } from '@/context/Carrinho'
 
 interface ItemCardProps {
     item: Item;
-    addToCart: (item: Item, quantity: number, size: string) => void;  
   }
 
-export function ItemCard( {item, addToCart}: ItemCardProps ) {
+export function ItemCard( {item}: ItemCardProps ) {
+    const { addToCart } = useCart();
     const router = useRouter()
     const sendToPage = () => router.push(`/${item.slug}`)
 
