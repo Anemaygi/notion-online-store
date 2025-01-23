@@ -19,6 +19,14 @@ export function NavigationTopMenu() {
   return (
     <div className="w-full flex items-center justify-between">
       
+      <Link href="/" legacyBehavior passHref>
+      <i className="flex cursor-pointer">
+      <BsFlower2 />
+      <p>Logo</p>
+      </i>
+      </Link>
+
+
       
       <NavigationMenu className="w-full">
       <NavigationMenuList className="w-full flex items-center justify-between">
@@ -29,15 +37,19 @@ export function NavigationTopMenu() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
+        <NavigationMenuItem className="flex-grow text-center">
+          <Link href="/docs" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Sobre a loja
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
 
 
-    <i className="flex">
-      <BsFlower2 />
-      <p>Logo</p>
-      </i>
-
+    
 
       <NavigationMenu className="w-full">
       <NavigationMenuList className="w-full flex items-center justify-between">
