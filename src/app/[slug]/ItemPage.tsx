@@ -95,6 +95,6 @@ export function ItemPage( {item, markdown}: ItemPageprops ) {
         <CardContent>
             <Markdown>{markdown}</Markdown>
         </CardContent>
-                    </Card>
+        </Card>
   )
 }

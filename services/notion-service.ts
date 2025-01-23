@@ -90,13 +90,13 @@ export default class NotionService {
             default:
                 cover = ''
         }
-
+        console.log(page.properties.Categorias.multi_select)
         return{
             id: page.id,
             slug: page.properties.Slug.formula.string,
             imagem: cover,
             nome: page.properties.Name.title[0].plain_text,
-            categorias: [],
+            categorias: page.properties.Categorias.multi_select,
             descricao: page.properties.Descricao.rich_text[0].plain_text,
             pedidos: page.properties.Pedidos.number,
             estoque: page.properties.Estoque.number,

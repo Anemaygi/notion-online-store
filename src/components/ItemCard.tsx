@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select"
 import { Item } from "../../@types/schema"
 import { useCart } from '@/context/Carrinho'
+import { Badge } from './ui/badge'
 
 interface ItemCardProps {
     item: Item;
@@ -45,19 +46,32 @@ export function ItemCard({ item }: ItemCardProps) {
     };
     return (
         <Card className="w-full">
-            <CardHeader onClick={sendToPage} className="cursor-pointer">
+            
+            
+            
+            <CardHeader >
                 <div className="mb-2 w-full h-64 relative">
                     <img
-                        className="object-scale-down w-full h-full"
+                        className="object-scale-down cursor-pointer w-full h-full"
                         src={item.imagem}
                         alt={item.descricao}
+                        onClick={sendToPage} 
                     />
                 </div>
-                <CardTitle> {item.nome} </CardTitle>
-                <CardTitle className="text-gray-500"> R$ {item.preco.toFixed(2).replace(".", ",")} </CardTitle>
-                <CardDescription> {item.descricao} </CardDescription>
+                <CardContent className="flex items-center justify-start h-5 gap-2 p-0 overflow-x-scroll">
+                    {
+                        item.categorias.map(categoria => (
+                            <Badge key={categoria.id}>{categoria.name}</Badge>
+                        ))
+                    }
+                </CardContent>
+                <CardTitle onClick={sendToPage} className="cursor-pointer text-xl"> {item.nome} </CardTitle>
+                <CardTitle onClick={sendToPage} className="cursor-pointer text-gray-500"> R$ {item.preco.toFixed(2).replace(".", ",")} </CardTitle>
+                <CardDescription onClick={sendToPage} className="cursor-pointer"> {item.descricao} </CardDescription>
+                
 
             </CardHeader>
+            
             <CardContent>
                 <form>
                     <div className="grid grid-cols-3 w-full items-center gap-4">

@@ -5,25 +5,18 @@ export enum Tipo {
     ProntaEntrega = 'ProntaEntrega'
 }
 
-export enum Categorias {
-    Roupas = 'Roupas',
-    Broches = 'Broches',
-    Papelaria = 'Papelaria',
-    Bolsas = 'Bolsas'
+export type Categoria = {
+    color: string
+    id: string
+    name: string
 }
-
-type Variacao = {
-    tamanho: string;
-    cor: string;
-    estoque: number;
-};
 
 export type Item = {
     id: string,
     slug: string,
     imagem: string,
     nome: string,
-    categorias: Categorias[],
+    categorias: Categoria[],
     descricao: string,
     pedidos: number,
     estoque: number,
