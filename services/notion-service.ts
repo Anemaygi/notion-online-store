@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
-import { Item, ItemPage, Tipo } from "../@types/schema";
+import { Categoria, Item, ItemPage, Tipo } from "../@types/schema";
 
 export default class NotionService {
     client: Client
@@ -8,12 +8,12 @@ export default class NotionService {
     database: string
 
     constructor() {
-        this.client = new Client({auth:process.env.NOTION_ACCESS_TOKEN})
-        this.n2m = new NotionToMarkdown({notionClient: this.client})
+        this.client = new Client({ auth: process.env.NOTION_ACCESS_TOKEN })
+        this.n2m = new NotionToMarkdown({ notionClient: this.client })
         this.database = process.env.NOTION_STORE_DB_ID ?? '';
     }
 
-    async getPublishedItems(): Promise<Item[]>{
+    async getPublishedItems(): Promise<Item[]> {
         // const database = process.env.NOTION_STORE_DB_ID ?? '';
         const response = await this.client.databases.query(
             {
@@ -32,8 +32,8 @@ export default class NotionService {
                 ]
             }
         );
-
-        const formatRes =  response.results.map(res=>{
+        
+        const formatRes = response.results.map(res => {
             return NotionService.pageToItemTransformer(res)
         })
         return formatRes
@@ -41,7 +41,7 @@ export default class NotionService {
     }
 
     async getSingleItem(slug: string): Promise<ItemPage> {
-        
+
         let item, markdown
 
         const response = await this.client.databases.query(
@@ -58,7 +58,7 @@ export default class NotionService {
             }
         )
 
-        if(!response.results[0]){
+        if (!response.results[0]) {
             throw new Error('No results available');
         }
 
@@ -67,7 +67,7 @@ export default class NotionService {
         const mdBlocks = await this.n2m.pageToMarkdown(page.id)
         markdown = this.n2m.toMarkdownString(mdBlocks).parent;
         item = NotionService.pageToItemTransformer(page);
-        
+
         return {
             item,
             markdown
@@ -75,10 +75,24 @@ export default class NotionService {
 
     }
 
+    async getAllCategorias(): Promise<string[]> {
+        const response = await this.client.databases.query({
+            database_id: this.database,
+        });
+        const categoriasSet = new Set<string>();
+        response.results.forEach((page: any) => {
+            const categorias = page.properties.Categorias.multi_select;
+            if (categorias) {
+                categorias.forEach((categoria: any) => {
+                    categoriasSet.add(categoria.name);
+                });
+            }
+        });
+        return Array.from(categoriasSet);
+    }
 
+    private static pageToItemTransformer(page: any): Item {
 
-    private static pageToItemTransformer(page:any): Item{
-        
         let cover = page.cover;
         switch (cover.type) {
             case 'file':
@@ -90,8 +104,7 @@ export default class NotionService {
             default:
                 cover = ''
         }
-        console.log(page.properties.Categorias.multi_select)
-        return{
+        return {
             id: page.id,
             slug: page.properties.Slug.formula.string,
             imagem: cover,
@@ -107,5 +120,6 @@ export default class NotionService {
             preco: page.properties.Preco.number,
         }
     }
-    
+
 }
+
