@@ -14,6 +14,7 @@ import {
 import { Item } from "../../@types/schema"
 import Image from "./Image"
 import { useCart } from '@/context/Carrinho';
+import { useRouter } from 'next/router';
 
 export interface ItemCarrinhoProps {
     item: Item;
@@ -29,16 +30,25 @@ export interface CarrinhoProps {
 }
 
 export function Carrinho() {
+    
+    
     const { carrinho, removeFromCart, updateItem } = useCart();
     const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false); // Abre e fecha modal
 
     const totalValue = () => {
         let total = 0;
         for (const item of carrinho) { 
+            // console.log(item)
+            // console.log(item.item.preco)
+            // console.log( item.quantidade)
             total += (item.item.preco * item.quantidade); 
         }
         return total;
     }
+
+    const handleRedirect = () => {
+        window.location.href = '/finalizar-compra'; // This will navigate to the new page
+    };
     
 
     return (
@@ -67,7 +77,7 @@ export function Carrinho() {
                 <div className="flex flex-col gap-4">
                     <h1><strong>Total</strong> R$ {totalValue().toFixed(2).replace(".", ",")} </h1>
                     
-                    <Button>Finalizar compra</Button>
+                    <Button onClick={handleRedirect}>Finalizar compra</Button>
                 </div>
             </main>
         </>
