@@ -16,7 +16,7 @@ import { z } from "zod";
 import { DadosCompra } from "./BuyForm";
 
 const formSchema = z.object({
-  file: z.instanceof(FileList).refine((fileList) => fileList.length > 0, {
+  file: z.any().refine((fileList) => fileList.length > 0, {
     message: "Você precisa enviar um comprovante.",
   }),
 });
