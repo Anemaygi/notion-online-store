@@ -70,10 +70,8 @@ export default class NotionService {
     private static pageToItemTransformer(page:any): Item{
         
         let cover = page.cover;
-        console.log(cover)
         switch (cover.type) {
             case 'file':
-                
                 cover = cover.file.url
                 break;
             case 'external':
@@ -82,12 +80,15 @@ export default class NotionService {
             default:
                 cover = ''
         }
+
+        console.log("pGAEEEE")
+        console.log(page)
         
         return{
             id: page.id,
             slug: page.properties.Slug.formula.string,
             imagem: cover,
-            nome: page.properties.Nome.rich_text[0].plain_text,
+            nome: page.properties.Name.title[0].plain_text,
             categorias: [],
             descricao: page.properties.Descricao.rich_text[0].plain_text,
             pedidos: page.properties.Pedidos.number,
