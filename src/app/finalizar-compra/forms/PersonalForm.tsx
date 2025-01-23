@@ -57,7 +57,7 @@ export default function PersonalForm({setStep, setFinalData, finalData}:Personal
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="fullname"
@@ -82,9 +82,6 @@ export default function PersonalForm({setStep, setFinalData, finalData}:Personal
               <FormControl>
                 <Input placeholder="nome@provedor.com" {...field} />
               </FormControl>
-              <FormDescription>
-                Um meio de entrar em contato.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

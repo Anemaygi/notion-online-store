@@ -6,18 +6,21 @@ import { Item } from "../../../@types/schema";
 import { Label } from "@/components/ui/label";
 
 export default function BuyReview() {
-    const { carrinho, formattedTotalPrice } = useCart();
+    const { carrinho} = useCart();
 
     return (
-        <div className="flex-col flex gap-2 overflow-y-scroll h-96">
+        <div className="block max-h-full">
+            
+            <div className="w-full  gap-2  overflow-y-scroll h-full flex flex-col flex-grow px-4 py-2 md:px-8">
             {
                 carrinho.map((item, idx) => (
 
                     <ReviewItem item={item.item} quantidade={item.quantidade} variacao={item.variacao} key={idx} />
                 ))
             }
+            </div>
 
-            <h1 className="bg-white p-4 sticky bottom-0"><strong>Total</strong> R$ {formattedTotalPrice()} </h1>
+            
 
         </div>
     )
