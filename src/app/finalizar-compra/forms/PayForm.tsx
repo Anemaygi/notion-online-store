@@ -7,9 +7,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SetStateAction } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { DadosCompra } from "./BuyForm";
@@ -35,20 +34,27 @@ export default function PayForm({
     resolver: zodResolver(formSchema),
   });
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     const file = data.file[0];
-    console.log("Selected file:", file);
-    console.log("Type:", typeof file);
-
+   
     setFinalData((prev) => ({
       ...prev,
       comprovante: file,
     }));
 
-    setStep(2)
+    setStep(2);
 
     finalize();
   };
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <Form {...form}>
@@ -60,6 +66,7 @@ export default function PayForm({
             return (
               <FormItem>
                 <FormLabel>Anexe o comprovante abaixo</FormLabel>
+                <br/>
                 <FormControl>
                   <Controller
                     name="file"
