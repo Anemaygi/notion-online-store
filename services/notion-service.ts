@@ -43,6 +43,9 @@ export default class NotionService {
     }
 
     async getSingleItem(slug: string): Promise<ItemPage> {
+        
+        let item, markdown
+
         const response = await this.client.databases.query(
             {
                 database_id: this.database,
@@ -61,8 +64,17 @@ export default class NotionService {
             throw new Error('No results available');
         }
 
-        const itemToPage = response.results[0];
-        return {item: NotionService.pageToItemTransformer(itemToPage)}
+        const page = response.results[0];
+
+        const mdBlocks = await this.n2m.pageToMarkdown(page.id)
+        markdown = this.n2m.toMarkdownString(mdBlocks).parent;
+        item = NotionService.pageToItemTransformer(page);
+        
+        return {
+            item,
+            markdown
+        }
+
     }
 
 

@@ -20,7 +20,6 @@ export default async function Page({
   const { slug } = (await params);
   const notionService = new NotionService();
   const itemPage = await notionService.getSingleItem(slug);
-  const item = itemPage.item;
 
-  return <ItemPage item={item} />;
+  return <ItemPage item={itemPage.item} markdown={itemPage.markdown} />;
 }

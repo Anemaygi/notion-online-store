@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 
 import * as React from "react"
-
+import Markdown from "react-markdown";
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -21,14 +21,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Item } from "../../../@types/schema"
 import { useCart } from '@/context/Carrinho'
+import { ItemPage as ItemPageprops, Item } from '../../../@types/schema'
 
-interface ItemPageProps {
-    item: Item;
-  }
 
-export function ItemPage( {item}: ItemPageProps ) {
+
+export function ItemPage( {item, markdown}: ItemPageprops ) {
     const { addToCart } = useCart();
     const [quantity, setQuantity] = React.useState(1); 
     const [selectedSize, setSelectedSize] = React.useState("");
@@ -93,6 +91,10 @@ export function ItemPage( {item}: ItemPageProps ) {
           </div>
             </form>
         </CardContent>
-    </Card>
+
+        <CardContent>
+            <Markdown>{markdown}</Markdown>
+        </CardContent>
+                    </Card>
   )
 }

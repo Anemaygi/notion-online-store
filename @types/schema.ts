@@ -1,3 +1,5 @@
+import { MdStringObject } from "notion-to-md/build/types";
+
 export enum Tipo {
     Encomenda = 'Encomenda',
     ProntaEntrega = 'ProntaEntrega'
@@ -33,5 +35,6 @@ export type Item = {
 }
 
 export type ItemPage = {
-    item: Item
+    item: Item, 
+    markdown: string
 }
