@@ -33,11 +33,9 @@ export default class NotionService {
             }
         );
 
-        console.log(response)
         const formatRes =  response.results.map(res=>{
             return NotionService.pageToItemTransformer(res)
         })
-        console.log(formatRes)
         return formatRes
 
     }
@@ -93,9 +91,6 @@ export default class NotionService {
                 cover = ''
         }
 
-        console.log("pGAEEEE")
-        console.log(page)
-        
         return{
             id: page.id,
             slug: page.properties.Slug.formula.string,
