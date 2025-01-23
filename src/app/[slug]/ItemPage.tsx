@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Item } from "../../../@types/schema"
-import Image from "../../components/Image"
 import { useCart } from '@/context/Carrinho'
 
 interface ItemPageProps {
@@ -45,9 +44,17 @@ export function ItemPage( {item}: ItemPageProps ) {
     return (
     <Card className="w-full">
       <CardHeader className="cursor-pointer">
-        <div className="mb-2 w-full h-64 relative">
-            <Image className="object-scale-down" src={item.imagem} alt={item.descricao} fill={true}/>
-        </div>
+        
+      <div className="size-96 relative overflow-hidden items-center flex rounded-lg ">
+                <img
+                    className="object-scale-down w-full h-full"
+                    src={item.imagem}
+                    alt={item.descricao}
+                />
+
+
+            </div>
+        
         <CardTitle> {item.nome} </CardTitle>
         <CardTitle className="text-gray-500"> R$ {item.preco.toFixed(2).replace(".", ",")} </CardTitle>
         <CardDescription> {item.descricao} </CardDescription>

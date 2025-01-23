@@ -12,7 +12,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Item } from "../../@types/schema"
-import Image from "./Image"
 import { useCart } from '@/context/Carrinho';
 
 export interface ItemCarrinhoProps {
@@ -29,17 +28,17 @@ export interface CarrinhoProps {
 }
 
 export function Carrinho() {
-    
-    
+
+
     const { carrinho, removeFromCart, updateItem, formattedTotalPrice } = useCart();
     const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false);
 
-    
+
 
     const handleRedirect = () => {
-        window.location.href = '/finalizar-compra'; 
+        window.location.href = '/finalizar-compra';
     };
-    
+
 
     return (
         <>
@@ -47,29 +46,29 @@ export function Carrinho() {
                 <BsCartFill />
             </i>
             <main className={`flex flex-col ${isCarrinhoOpen ? '' : 'hidden'} pt-8 overflow-x-auto z-40 p-4 gap-4 shadow-md border fixed top-0 right-0 bottom-0 h-screen min-h-screen max-h-screen bg-white w-full sm:w-80`}>
-                
+
                 <div onClick={() => setIsCarrinhoOpen(false)} className="absolute cursor-pointer top-2 right-2">
                     <BsXCircleFill />
                 </div>
 
 
                 <div className="flex flex-col gap-2 flex-grow overflow-y-scroll">
-                {carrinho.map((item: ItemCarrinhoProps, idx) => (
-                    <ItemCarrinho
-                        key={idx}
-                        item={item.item}
-                        quantidade={item.quantidade}
-                        variacao={item.variacao}
-                        removeFromCart={removeFromCart}
-                        updateItem={updateItem} 
-                    />
-                ))}
+                    {carrinho.map((item: ItemCarrinhoProps, idx) => (
+                        <ItemCarrinho
+                            key={idx}
+                            item={item.item}
+                            quantidade={item.quantidade}
+                            variacao={item.variacao}
+                            removeFromCart={removeFromCart}
+                            updateItem={updateItem}
+                        />
+                    ))}
                 </div>
 
 
                 <div className="flex flex-col gap-4">
                     <h1><strong>Total</strong> R$ {formattedTotalPrice()} </h1>
-                    
+
                     <Button onClick={handleRedirect}>Finalizar compra</Button>
                 </div>
             </main>
@@ -96,8 +95,14 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
 
     return (
         <div className="w-full p-2 gap-x-3 h-fit flex items-center justify-center rounded-md border shadow-sm">
-            <div className="w-20 h-20 relative ">
-                <Image className="object-scale-down rounded-lg" src={item.imagem} alt={"item.descricao"} fill={true} />
+            <div className="size-20 relative overflow-hidden items-center flex rounded-lg ">
+                <img
+                    className="object-scale-down  w-full h-full"
+                    src={item.imagem}
+                    alt={item.descricao}
+                />
+
+
             </div>
 
             <div className="w-36">
@@ -111,7 +116,7 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
                                 type="number"
                                 min="1"
                                 value={quantidade}
-                                onChange={handleQuantityChange} 
+                                onChange={handleQuantityChange}
                             />
                         </div>
                         <div className="flex flex-col space-y-1.5">
@@ -134,7 +139,7 @@ export function ItemCarrinho({ item, quantidade, variacao, removeFromCart, updat
 
             <div>
                 <div className="flex flex-col">
-                                       
+
                     <Button onClick={() => removeFromCart(item.id, variacao)}>
                         <BsFillTrash3Fill size={20} />
                     </Button>

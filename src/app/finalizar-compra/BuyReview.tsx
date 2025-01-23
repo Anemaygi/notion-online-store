@@ -1,7 +1,6 @@
 'use client'
 import { useCart } from "@/context/Carrinho";
 import React from 'react';
-import Image from "../../components/Image"
 import { Item } from "../../../@types/schema";
 import { Label } from "@/components/ui/label";
 
@@ -37,9 +36,16 @@ interface ReviewItemProps {
 function ReviewItem({ item, quantidade, variacao }: ReviewItemProps) {
     return (
         <div className="w-full p-2 gap-x-3 h-fit flex items-center justify-center rounded-md border shadow-sm">
-            <div className="w-20 h-20 relative ">
-                <Image className="object-scale-down rounded-lg" src={item.imagem} alt={"item.descricao"} fill={true} />
+            
+            <div className="size-20 relative overflow-hidden items-center flex rounded-lg ">
+                <img
+                    className="object-scale-down w-full h-full"
+                    src={item.imagem}
+                    alt={item.descricao}
+                />
+
             </div>
+            
 
             <div className="flex flex-col flex-grow">
                 <h1 className="text-sm">{item.nome}</h1>
