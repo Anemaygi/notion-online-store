@@ -34,7 +34,6 @@ export default function RootLayout({
             <NavigationTopMenu />
           </header>
           <main className="z-0">
-          {/* <Carrinho /> */}
           {children}
           </main>
         </body>
