@@ -9,6 +9,8 @@ interface CartContextType {
     addToCart: (item: Item, quantity: number, size: string) => void;
     updateItem: (itemId: string, variacao: string, newValue: number | string, type: "quantidade" | "variacao", newVariacao?: string) => void;
     removeFromCart: (itemId: string, variacao: string) => void;
+    totalPrice: () => number;
+    formattedTotalPrice: () => string;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,6 +37,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           localStorage.setItem("carrinho", JSON.stringify(carrinho));
       }, [carrinho]);
     
+
+    const totalPrice = () => {
+        let total = 0;
+        for (const item of carrinho) { 
+            total += (item.item.preco * item.quantidade); 
+        }
+        return total;
+    }
+
+    const formattedTotalPrice = () => {
+        return totalPrice().toFixed(2).replace(".", ",")
+    }
 
     const addToCart = (item: Item, quantity: number, size: string) => {
         setCarrinho((prevCarrinho) => {
@@ -96,7 +110,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <CartContext.Provider value={{ carrinho, addToCart, updateItem, removeFromCart }}>
+        <CartContext.Provider value={{ carrinho, addToCart, updateItem, removeFromCart, totalPrice, formattedTotalPrice }}>
             {children}
         </CartContext.Provider>
     );

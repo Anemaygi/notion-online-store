@@ -1,30 +1,13 @@
 'use client'
 import { useCart } from "@/context/Carrinho";
 import React from 'react';
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import Image from "../../components/Image"
 import { Item } from "../../../@types/schema";
-import { StringValidation } from "zod";
 import { Label } from "@/components/ui/label";
 
 export default function BuyReview() {
-    const { carrinho } = useCart();
+    const { carrinho, formattedTotalPrice } = useCart();
 
-    const totalValue = () => {
-        let total = 0;
-        for (const item of carrinho) {
-            total += (item.item.preco * item.quantidade);
-        }
-        return total;
-    }
     return (
         <div className="flex-col flex gap-2 overflow-y-scroll h-96">
             {
@@ -34,7 +17,7 @@ export default function BuyReview() {
                 ))
             }
 
-            <h1 className="bg-white p-4 sticky bottom-0"><strong>Total</strong> R$ {totalValue().toFixed(2).replace(".", ",")} </h1>
+            <h1 className="bg-white p-4 sticky bottom-0"><strong>Total</strong> R$ {formattedTotalPrice()} </h1>
 
         </div>
     )

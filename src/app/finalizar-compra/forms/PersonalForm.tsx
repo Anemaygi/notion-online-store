@@ -26,7 +26,7 @@ const formSchema = z.object({
   phone: z.string().min(11, { message: 'Insira um número válido com DDD' }).max(16, { message: 'Insira um número válido com DDD' })
 })
 
-export function BuyForm() {
+export function PersonalForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

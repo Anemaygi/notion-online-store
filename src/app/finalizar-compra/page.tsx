@@ -1,7 +1,8 @@
 'use client'
 import { useCart } from "@/context/Carrinho";
-import { BuyForm } from "./BuyForm";
+import { PersonalForm } from "./forms/PersonalForm";
 import BuyReview from "./BuyReview";
+import PayForm from "./forms/PayForm";
 
 
 export default function Page() {
@@ -15,7 +16,8 @@ export default function Page() {
                     <BuyReview />
                 </div>
                 <div className="border shadow-md rounded-md p-8">
-                    <BuyForm />
+                    {/* <PersonalForm /> */}
+                    <PayForm />
                 </div>
 
 

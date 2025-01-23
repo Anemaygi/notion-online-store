@@ -32,19 +32,10 @@ export interface CarrinhoProps {
 export function Carrinho() {
     
     
-    const { carrinho, removeFromCart, updateItem } = useCart();
+    const { carrinho, removeFromCart, updateItem, formattedTotalPrice } = useCart();
     const [isCarrinhoOpen, setIsCarrinhoOpen] = React.useState(false); // Abre e fecha modal
 
-    const totalValue = () => {
-        let total = 0;
-        for (const item of carrinho) { 
-            // console.log(item)
-            // console.log(item.item.preco)
-            // console.log( item.quantidade)
-            total += (item.item.preco * item.quantidade); 
-        }
-        return total;
-    }
+    
 
     const handleRedirect = () => {
         window.location.href = '/finalizar-compra'; // This will navigate to the new page
@@ -75,7 +66,7 @@ export function Carrinho() {
 
 
                 <div className="flex flex-col gap-4">
-                    <h1><strong>Total</strong> R$ {totalValue().toFixed(2).replace(".", ",")} </h1>
+                    <h1><strong>Total</strong> R$ {formattedTotalPrice()} </h1>
                     
                     <Button onClick={handleRedirect}>Finalizar compra</Button>
                 </div>
