@@ -31,7 +31,7 @@ export function NavigationTopMenu() {
       <NavigationMenu className="w-full">
       <NavigationMenuList className="w-full flex items-center justify-between">
         <NavigationMenuItem className="flex-grow text-center">
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/quem-somos" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Quem somos?
             </NavigationMenuLink>
@@ -39,7 +39,7 @@ export function NavigationTopMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem className="flex-grow text-center">
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/quem-somos" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Sobre a loja
             </NavigationMenuLink>
