@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { SetStateAction } from "react"
-import { DadosCompra } from "./BuyForm"
+import { DadosCompra } from "../BuyForm"
 
 const formSchema = z.object({
   fullname: z.string().min(2, {
@@ -57,7 +57,7 @@ export default function PersonalForm({setStep, setFinalData, finalData}:Personal
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 h-full justify-between flex flex-col">
         <FormField
           control={form.control}
           name="fullname"
